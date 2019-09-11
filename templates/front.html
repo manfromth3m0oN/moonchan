@@ -1,0 +1,28 @@
+<!doctype html>
+<head>
+  <title>moonchan</title>
+   <!-- Compiled and minified CSS -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+   <!-- Compiled and minified JavaScript -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+   <style>
+   body {
+    background-color: #ededed;
+    }
+   h1 {
+     color: red
+   }
+  </style>
+</head>
+<body>
+  <h1><center><i>m o o n c h a n</i></center></h1>
+  <ul>
+  {% for board in boards %}
+  <div class="collection container">
+    <a href="/{{board[1]}}" class="collection-item boardbutton"><span class="badge">{{board[1]}}</span>{{board[2]}}</a>
+  </div>
+  {% endfor %}
+  </ul>
+
+</body>
