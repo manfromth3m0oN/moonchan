@@ -33,7 +33,7 @@ def query_db(query, args=(), one=False):
     return (rv[0] if rv else None) if one else rv
 
 def create_new_post(request, reply_id):
-    if reply_id == 0:
+    if reply_id == '0':
         query = ''' INSERT INTO posts(image_file, user, date, board, post_text) values (?,?,?,?,?) '''
     else:
         query = ''' INSERT INTO replies(image_file, user, date, board, post_text, replying_to) values (?,?,?,?,?,?) '''
@@ -82,19 +82,23 @@ def post_reply(board,post_id):
 @app.route('/')
 def index():
     boards = query_db('select * from boards')
-    return render_template('front.html', boards=boards)
+    images = query_db('select image_file from posts')
+    posts = query_db('select post_text, board, post_id from posts')
+    return render_template('front.html', boards=boards, images=images, posts=posts)
 
 @app.route('/<board>')
 def board(board):
+    boardmeta = query_db('select * from boards where board_short_name == "{}"'.format(board))
     posts = query_db('select * from posts where board = "{}"'.format(board))
-    return render_template('board.html', posts=posts,board=board)
+    return render_template('board.html', posts=posts,board=boardmeta)
 
 @app.route('/<board>/reply/<post_id>')
 def reply(board, post_id):
     post = query_db('select * from posts where post_id = {}'.format(post_id))
     replies = query_db('select * from replies where replying_to = "{}"'.format(post_id))
+    boardmeta = query_db('select * from boards where board_short_name == "{}"'.format(board))
     print(replies)
-    return render_template('reply.html', post=post[0], replies=replies, board=board)
+    return render_template('reply.html', post=post[0], replies=replies, board=boardmeta, post_id=post_id)
     
 if __name__ == '__main__':
     app.run(debug=True)

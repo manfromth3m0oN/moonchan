@@ -1,34 +1,73 @@
 <!doctype html>
-<title>metischan</title>
+<title>{{board[0][1]}} - moonchan</title>
 <head>
   <!--Import Google Icon Font-->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!--Import materialize.css-->
       <link type="text/css" rel="stylesheet" href="{{url_for('static',filename='materialize/css/materialize.min.css')}}"  media="screen,projection"/>
+      <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}">
 </head>
+
 <body>
   <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
       <script type="text/javascript" src="{{url_for('static',filename='materialize/js/materialize.min.js')}}"></script>
     
-  <h1>{{board}} - {{board_desc}}</h1>
-  <form method = "POST" action="/{{board}}/post" enctype=multipart/form-data>
-    Name:<input type="text" name="name"/><br/>
-    Image:<input type=file name="image"/><br/>
-    Post:<textarea type="text" name="post_text"></textarea><br/>
-    <input type="submit" value="Post!"/>
-    </form>
-  <ul>
+  <center><h1><i>{{board[0][1]}} - {{board[0][2]}}</i></h1></center>
+  <div class="container solid" style="background-color:rgb(255, 246, 208)">
+    <form method="POST" action="/{{board[0][1]}}/post" enctype=multipart/form-data>
+      <!--<input type="text" name="name"/><br/>-->
+      <div class="input-field col s6">
+          <i class="material-icons prefix">account_circle</i>
+          <input id="icon_prefix" type="text" class="validate name="name">
+          <label for="icon_prefix">Name</label>
+        </div>
+        <hr/>
+      <i class="material-icons prefix">image</i>
+               <div class = "file-field input-field inline">
+                  <div class = "btn">
+                     <span>Browse</span>
+                     <input type = "file" />
+                  </div>
+                  <div class = "file-path-wrapper">
+                     <input class = "file-path validate" type = "text"
+                        placeholder = "Upload file" name="image"/>
+                  </div>
+               </div>
+               <hr/>
+               <div class="row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">textsms</i>
+                    <textarea id="textarea1" class="materialize-textarea" name="post_text"></textarea>
+                  </div>
+                </div>
+                <hr/>
+      <input class="btn waves-effect waves-light" type="submit" value="Post"/>
+      </form>
+    <ul>
+  </div>
+  <br/>
   {% for post in posts %}
-  <div>
+  <div class="container">
+    <div class="row">
     {% if post[1] %}
+    <div class="col s3">
     <a href="{{url_for('static',filename='uploads/'+post[1])}}"><img style="width:100px;" src="{{url_for('static',filename='uploads/'+post[1])}}" /></a>
+    </div>
+    <div class="col s9">
+    {% else %}
+    <div class="col s3">
+        <i class="large  material-icons">broken_image</i>
+    </div>
     {% endif %}
     User:{{post[2]}}
-    Date:{{post[3]}}
-    Post:{{post[5]}}
-    <a href="/{{board}}/reply/{{post[0]}}">Reply</a>
+    Date:{{post[3]}} <br/>  
+    Post:{{post[5]}} <br/>
+    <a href="/{{board[0][1]}}/reply/{{post[0]}}">Reply</a>
   </div>
+  </div>
+  </div>
+  <hr/>
   {% endfor %}
   </ul>
 

@@ -6,14 +6,7 @@
 
    <!-- Compiled and minified JavaScript -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-   <style>
-   body {
-    background-color: #ededed;
-    }
-   h1 {
-     color: red
-   }
-  </style>
+   <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}">
 </head>
 <body>
   <h1><center><i>m o o n c h a n</i></center></h1>
@@ -24,5 +17,28 @@
   </div>
   {% endfor %}
   </ul>
+  <div class="row container">
+    <div class="col s6 solid">Recent images <br/>
+      {% for image in images %}
+      {% if image[0] != '' %}
+      <div class="col s4">
+        <img src="static/uploads/{{image[0]}}" width="82" height="86" title="{{image}}" alt="{{image}}">
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    <div class="col s6 solid">Recent Posts
+        {% for post in posts %}
+        <div class="">
+          <p>{{post[0]}} <a href="{{post[1]}}/reply/{{post[2]}}">Here</a></p>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
 
+  <div id="footer">
+    <center>
+      &copy; moonchan 2019 - Read the FAQ here - Got a question? Ask here
+    </center>
+  </div>
 </body>
